@@ -1,35 +1,38 @@
 // popup.js
 
-// Grab references to elements
-const fetchBtn = document.getElementById("fetchBtn");
-const copyBtn = document.getElementById("copyBtn");
 const cookieOutput = document.getElementById("cookieOutput");
+const copyBtn = document.getElementById("copyBtn");
+const statusDiv = document.getElementById("status");
 
-// When “Fetch Cookies” is clicked:
-fetchBtn.addEventListener("click", async () => {
-  // 1. Identify the active tab
+document.addEventListener("DOMContentLoaded", async () => {
+  // 1. Find the active tab
   let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+  // 2. Check if URL includes "instagram.com"
   if (!tab || !tab.url.includes("instagram.com")) {
-    alert("Please switch to an Instagram page (https://www.instagram.com/) and try again.");
+    statusDiv.textContent = "⚠️ Please open an Instagram tab first.";
+    cookieOutput.value = "";
     return;
   }
 
-  // 2. Collect all cookies under ".instagram.com"
+  statusDiv.textContent = "✅ Instagram tab detected. Fetching cookies…";
+
+  // 3. Get all cookies under ".instagram.com"
   chrome.cookies.getAll({ domain: ".instagram.com" }, (cookies) => {
     if (!cookies || cookies.length === 0) {
-      alert("No Instagram cookies found. Make sure you’re logged in.");
+      statusDiv.textContent = "❌ No cookies found. Are you logged in?";
+      cookieOutput.value = "";
       return;
     }
 
-    // 3. Build a single string: "name=value; name2=value2; …"
-    const cookieStr = cookies
-      .map(c => `${c.name}=${c.value}`)
-      .join("; ");
+    // 4. Build single string: "name=value; name2=value2; …"
+    const cookieStr = cookies.map(c => `${c.name}=${c.value}`).join("; ");
 
-    // 4. Place it in the textarea
+    // 5. Populate the textarea
     cookieOutput.value = cookieStr;
+    statusDiv.textContent = `👍 ${cookies.length} cookies fetched.`;
 
-    // 5. Enable “Copy” button
+    // 6. Enable “Copy to Clipboard”
     copyBtn.disabled = false;
   });
 });
@@ -39,7 +42,6 @@ copyBtn.addEventListener("click", () => {
   const text = cookieOutput.value;
   if (!text) return;
 
-  // Use the Clipboard API
   navigator.clipboard.writeText(text)
     .then(() => {
       copyBtn.textContent = "Copied!";
