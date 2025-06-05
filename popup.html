@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Instagram Cookie Getter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      width: 320px;
+      margin: 0;
+      padding: 12px;
+    }
+    h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+    p {
+      font-size: 13px;
+      margin: 0 0 12px;
+    }
+    button {
+      margin-top: 8px;
+      width: 100%;
+      padding: 8px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      margin-top: 8px;
+      font-size: 12px;
+      resize: none;
+    }
+  </style>
+</head>
+<body>
+  <h3>IG Cookie Getter</h3>
+  <p>
+    1. Log into Instagram normally.<br/>
+    2. On any instagram.com tab, click this icon.<br/>
+    3. Hit “Fetch Cookies” to gather your cookies.<br/>
+    4. Click “Copy to Clipboard” to copy them.
+  </p>
+
+  <button id="fetchBtn">Fetch Cookies</button>
+  <textarea id="cookieOutput" readonly placeholder="Cookies will appear here..."></textarea>
+  <button id="copyBtn" disabled>Copy to Clipboard</button>
+
+  <script src="popup.js"></script>
+</body>
+</html>
