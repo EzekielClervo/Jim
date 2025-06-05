@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Instagram Cookie Getter",
+  "version": "1.0",
+  "description": "Extract all cookies for instagram.com and copy as a single string.",
+  "permissions": [
+    "cookies",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://www.instagram.com/*"
+  ],
+  "action": {
+    "default_title": "Get IG Cookies",
+    "default_popup": "popup.html"
+  }
+}
