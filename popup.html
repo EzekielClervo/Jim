@@ -32,19 +32,22 @@
       font-size: 12px;
       resize: none;
     }
+    #status {
+      font-size: 12px;
+      color: #555;
+      margin-top: 4px;
+    }
   </style>
 </head>
 <body>
   <h3>IG Cookie Getter</h3>
   <p>
-    1. Log into Instagram normally.<br/>
-    2. On any instagram.com tab, click this icon.<br/>
-    3. Hit “Fetch Cookies” to gather your cookies.<br/>
-    4. Click “Copy to Clipboard” to copy them.
+    • If you’re logged into Instagram in your browser, this popup will auto-fetch cookies.<br/>
+    • Then click “Copy to Clipboard” to grab them.
   </p>
 
-  <button id="fetchBtn">Fetch Cookies</button>
-  <textarea id="cookieOutput" readonly placeholder="Cookies will appear here..."></textarea>
+  <textarea id="cookieOutput" readonly placeholder="Fetching cookies…"></textarea>
+  <div id="status">Looking for Instagram tab…</div>
   <button id="copyBtn" disabled>Copy to Clipboard</button>
 
   <script src="popup.js"></script>
