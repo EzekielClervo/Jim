@@ -17,24 +17,30 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   statusDiv.textContent = "✅ Instagram tab detected. Fetching cookies…";
 
-  // 3. Get all cookies under ".instagram.com"
-  chrome.cookies.getAll({ domain: ".instagram.com" }, (cookies) => {
-    if (!cookies || cookies.length === 0) {
-      statusDiv.textContent = "❌ No cookies found. Are you logged in?";
-      cookieOutput.value = "";
-      return;
+  // ─────────────────────────────────────────────────────
+  // CHANGE: use 'url' instead of 'domain' to reliably get Instagram cookies
+  //
+  chrome.cookies.getAll(
+    { url: "https://www.instagram.com/" },
+    (cookies) => {
+      if (!cookies || cookies.length === 0) {
+        statusDiv.textContent = "❌ No cookies found. Are you logged in?";
+        cookieOutput.value = "";
+        return;
+      }
+
+      // 4. Build single string: "name=value; name2=value2; …"
+      const cookieStr = cookies.map(c => `${c.name}=${c.value}`).join("; ");
+
+      // 5. Populate the textarea
+      cookieOutput.value = cookieStr;
+      statusDiv.textContent = `👍 ${cookies.length} cookies fetched.`;
+
+      // 6. Enable “Copy to Clipboard”
+      copyBtn.disabled = false;
     }
-
-    // 4. Build single string: "name=value; name2=value2; …"
-    const cookieStr = cookies.map(c => `${c.name}=${c.value}`).join("; ");
-
-    // 5. Populate the textarea
-    cookieOutput.value = cookieStr;
-    statusDiv.textContent = `👍 ${cookies.length} cookies fetched.`;
-
-    // 6. Enable “Copy to Clipboard”
-    copyBtn.disabled = false;
-  });
+  );
+  // ─────────────────────────────────────────────────────
 });
 
 // When “Copy to Clipboard” is clicked:
